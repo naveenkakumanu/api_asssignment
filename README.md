@@ -1,3 +1,6 @@
+
+
+
 # Sign Up 
 
 curl -X POST http://localhost:8080/signup \
@@ -82,3 +85,6 @@ Message for Token Expired
 {
   "error": "Token has expired"
 }
+
+
+

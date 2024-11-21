@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Go API Service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-api
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/mydb?sslmode=disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - go_network
+
+  # PostgreSQL Database Service
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - go_network
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  go_network:
+    driver: bridge
